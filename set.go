@@ -2,6 +2,8 @@ package goset
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -16,6 +18,18 @@ type SetSync[K comparable] struct {
 
 func NewSetSync[K comparable]() *SetSync[K] {
 	return &SetSync[K]{make(map[K]struct{}), sync.RWMutex{}, make([]K, 0), false}
+}
+
+func (s *SetSync[K]) String() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	var keys []string
+	for key := range s.elements {
+		keys = append(keys, fmt.Sprintf("%v", key)) // Преобразуем ключ в строку.
+	}
+
+	return fmt.Sprintf("[%s]", strings.Join(keys, ", "))
 }
 
 func (s *SetSync[K]) TryAdd(value K) error {
