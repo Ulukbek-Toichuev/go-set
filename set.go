@@ -26,7 +26,7 @@ func (s *SetSync[K]) String() string {
 
 	var keys []string
 	for key := range s.elements {
-		keys = append(keys, fmt.Sprintf("%v", key)) // Преобразуем ключ в строку.
+		keys = append(keys, fmt.Sprintf("%v", key))
 	}
 
 	return fmt.Sprintf("[%s]", strings.Join(keys, ", "))
